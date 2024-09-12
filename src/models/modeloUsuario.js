@@ -27,7 +27,8 @@ const usuarioSchema = new Schema({
         minLength: 4,
         maxLength: 70,
         required: true
-    }
+    },
+    arrayProductos: []
     
 })
  const Usuario = model('usuario', usuarioSchema)
