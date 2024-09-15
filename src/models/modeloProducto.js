@@ -18,6 +18,16 @@ const productoSchema = new Schema({
         minlength: 3,
         maxlength: 30,
         required: true
+    },
+    descripcion: {
+        type: String,
+        minlength: 3,
+        maxlength: 30,
+        required: true
+    },
+    fecha: {
+        type: Date,
+        required: true
     }
 
 })
