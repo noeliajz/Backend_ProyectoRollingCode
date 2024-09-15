@@ -1,35 +1,35 @@
-import { Schema, model } from "mongoose";
+import { Schema, model } from 'mongoose';
 
 const usuarioSchema = new Schema({
-    nombres:{
+    nombres: {
         type: String,
         required: true,
         minLength: 3,
         maxLength: 20,
     },
-    apellido:{
+    apellido: {
         type: String,
         required: true,
         minLength: 3,
         maxLength: 20,
     },
-    role:{
+    role: {
         type: String,
         required: true
     },
-    email:{
+    email: {
         type: String,
         required: true,
         unique: true
     },
-    contrasenia:{
+    contrasenia: {
         type: String,
         minLength: 4,
         maxLength: 70,
         required: true
     },
     arrayProductos: []
-    
-})
- const Usuario = model('usuario', usuarioSchema)
-export default Usuario
+});
+
+const Usuario = model('Usuario', usuarioSchema);
+export default Usuario;

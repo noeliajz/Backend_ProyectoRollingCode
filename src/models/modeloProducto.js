@@ -3,8 +3,8 @@ import { Schema, model } from "mongoose";
 const productoSchema = new Schema({
     nombre:{
         type: String,
-        minLength: 3,
-        maxLength: 20,
+        minlength: 3,
+        maxlength: 20,
         required: true
     },
     precio:{
@@ -15,12 +15,12 @@ const productoSchema = new Schema({
     },
     categoria: {
         type: String, 
-        minLength: 3,
-        maxLength: 20,
+        minlength: 3,
+        maxlength: 30,
         required: true
     }
 
 })
 
-const Producto = model ('producto', productoSchema)
+const Producto = model ('Producto', productoSchema)
 export default Producto
