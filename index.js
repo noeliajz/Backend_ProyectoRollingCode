@@ -3,6 +3,7 @@ import cors from 'cors'
 import morgan from 'morgan'
 import path from 'path'
 import routesUsuario from './src/routes/routes.Usuario'
+import routesProducto from './src/routes/routes.producto'
 
 const mongoose = require('mongoose');
 require('dotenv').config();
@@ -31,6 +32,8 @@ app.use(express.json())
 app.use(morgan('dev'))
 app.use(express.static(path.join(__dirname, '/public')))
 app.use('/apiStock', routesUsuario)
+app.use('/apiStock', routesProducto)
+
 
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, function() {
