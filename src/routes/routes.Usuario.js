@@ -3,7 +3,7 @@ import { crearUsuario, editarUsuario, eliminarUsuario, iniciarSesion, obtenerTod
 import { check } from 'express-validator'
 
 const router= Router()
- router.route('/usuario').post([
+ router.route('/').post([
     check('email')
     .notEmpty()
     .withMessage('campo email vacio')
@@ -44,10 +44,16 @@ router.route('/usuario').post([
     check('contrasenia')
     .notEmpty()
     .withMessage('el campo contraseña esta vacio')
-    .isLength({min: 4, max: 70})
+    .isLength({min: 4, max: 70}),
+    check('pago')
+    .notEmpty()
+    .withMessage('el campo pago esta vacio')
+    .isBoolean()
+    .withMessage('el campo pago debe ser booleano')
 ],
     crearUsuario)
     .get(obtenerTodosLosUsuarios)
+
 router.route('/usuario/:id').get(obtenerUnUsuario).put([
     check('nombres')
     .notEmpty()
