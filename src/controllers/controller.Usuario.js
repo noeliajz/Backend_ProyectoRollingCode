@@ -1,19 +1,36 @@
 import Usuario from '../models/modeloUsuario'
+import bcrypt from 'bcryptjs'
+import { validationResult } from "express-validator";
+
 
 export const crearUsuario = async(req, res) => {
     try {
-        const nuevoUsuario = new Usuario(req.body);
-        await nuevoUsuario.save();
+        const email = await Usuario.findOne({ email: req.body.email });
+        if (email) {
+          return res.status(400).json({ mensaje: "ya existe el email enviado" });
+        }
+        const errors = validationResult(req);
+    
+        if (!errors.isEmpty()) {
+          return res.status(400).json({
+            errores: errors.array(),
+          });
+        }
+    
+        const nuevoEmail = new Usuario(req.body);
+        const salt = bcrypt.genSaltSync(10);
+        nuevoEmail.contrasenia = bcrypt.hashSync(req.body.contrasenia, salt);
+        await nuevoEmail.save();
+    
         res.status(201).json({
-            mensaje: 'Se creó el usuario con éxito'
+          mensaje: "Se creó un nuevo usuario",
         });
-    } catch (error) {
-        console.error('Error al crear usuario:', error);
+      } catch (error) {
+        console.log(error);
         res.status(400).json({
-            mensaje: 'Error al crear usuario',
-            detalles: error.errors // Proporciona detalles sobre los errores de validación
+          mensaje: "Error al crear usuario",
         });
-    }
+      }
 };
 
 
@@ -77,3 +94,28 @@ export const eliminarUsuario = async (req, res) => {
         })
     }
 }
+
+ export const iniciarSesion = async ( req, res) => {
+    try {
+        let usuario = await Usuario.findOne({email: req.body.email})
+        if(!usuario){
+            return  res.status(404).json({
+                mensaje: 'correo o contraseña invalido'
+            })
+        }
+        const contraseniaValida = bcrypt.compareSync(req.body.contrasenia, usuario.contrasenia)
+        if(!contraseniaValida){
+            return  res.status(400).json({
+                mensaje: 'correo o contraseña invalido'
+            })
+        }
+        res.status(200).json({
+            mensaje: 'usuario logueado'
+        })
+    } catch (error) {
+        console.log(error)
+        res.status(404).json({
+            mensaje: 'no se pudo iniciar sesión'
+        })
+    }
+} 

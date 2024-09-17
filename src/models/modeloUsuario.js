@@ -13,14 +13,16 @@ const usuarioSchema = new Schema({
         minLength: 3,
         maxLength: 20,
     },
-    role: {
+    rol: {
         type: String,
         required: true
     },
     email: {
         type: String,
         required: true,
-        unique: true
+        unique: true,
+        minLength: 5,
+        maxLength: 30,
     },
     contrasenia: {
         type: String,
