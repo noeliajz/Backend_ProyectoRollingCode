@@ -30,6 +30,10 @@ const usuarioSchema = new Schema({
         maxLength: 70,
         required: true
     },
+    pago: {
+        type: Boolean,
+        required: true
+    },
     arrayProductos: []
 });
 
