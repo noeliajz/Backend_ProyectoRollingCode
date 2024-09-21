@@ -1,4 +1,4 @@
-import { Schema, model } from 'mongoose';
+import { Schema, model, Types } from 'mongoose';
 
 const usuarioSchema = new Schema({
     nombres: {
@@ -34,7 +34,10 @@ const usuarioSchema = new Schema({
         type: Boolean,
         required: true
     },
-    arrayProductos: []
+    arrayProductos: [{
+        type: Types.ObjectId, // Asegúrate de usar Types.ObjectId
+        ref: 'Producto' // Referencia al modelo Producto
+    }]
 });
 
 const Usuario = model('Usuario', usuarioSchema);

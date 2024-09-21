@@ -63,6 +63,9 @@ router.route('/producto/:id').put([
     .isDate()
     .withMessage(' debe ser del tipo fecha ') 
 ],
-    editarProducto).get(obtenerUnProducto).delete(eliminarProducto)
+    editarProducto)
+    .get(obtenerUnProducto)
+    .delete(eliminarProducto)
+    
 
 export default router
