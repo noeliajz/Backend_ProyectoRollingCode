@@ -1,21 +1,27 @@
 import Producto from "../models/modeloProducto";
 import Usuario from "../models/modeloUsuario";
 
-export const crearProducto = async(req, res) => {
+export const crearProducto = async (req, res) => {
     try {
         const nuevoProducto = new Producto(req.body);
+        
+        // Verifica que todos los campos requeridos estén presentes
+        await nuevoProducto.validate(); // Esto lanza un error si hay campos faltantes
+
         await nuevoProducto.save();
         res.status(201).json({
-            mensaje: 'Se creó el producto con éxito'
+            mensaje: 'Se creó el producto con éxito',
+            producto: nuevoProducto
         });
     } catch (error) {
         console.error('Error al crear producto:', error);
         res.status(400).json({
             mensaje: 'Error al crear producto',
-            detalles: error.errors // Proporciona detalles sobre los errores de validación
+            detalles: error.errors || error.message // Proporciona detalles sobre los errores de validación
         });
     }
-}
+};
+
 
 export const obtenerTodosProductos = async (req, res) => {
     try {

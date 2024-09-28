@@ -7,8 +7,8 @@ router.route('/producto').post([
     check('nombre')
     .notEmpty()
     .withMessage('el campo nombre esta vacio')
-    .isLength({min:3 , max: 20 })
-    .withMessage(' el campo nombre debe tener entre 3 y 20 caracteres máximo'),
+    .isLength({min:3 , max: 35 })
+    .withMessage(' el campo nombre debe tener entre 3 y 35 caracteres máximo'),
     check('precio')
     .notEmpty()
     .withMessage('el campo precio esta vacío')
@@ -38,8 +38,8 @@ router.route('/producto/:id').put([
     check('nombre')
     .notEmpty()
     .withMessage('el campo nombre esta vacio')
-    .isLength({min:3 , max: 20 })
-    .withMessage(' el campo nombre debe tener entre 3 y 20 caracteres máximo'),
+    .isLength({min:3 , max: 35 })
+    .withMessage(' el campo nombre debe tener entre 3 y 35 caracteres máximo'),
     check('precio')
     .notEmpty()
     .withMessage('el campo precio esta vacío')

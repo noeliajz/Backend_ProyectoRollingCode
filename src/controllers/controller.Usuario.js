@@ -121,67 +121,31 @@ export const eliminarUsuario = async (req, res) => {
 } 
 
 
-/* export const agregarProductosAusuarios = async (req, res) => {
-    
-        try {
-            const { id } = req.params;
-    
-            // Buscar el usuario por ID
-            const getUsuario = await Usuario.findById(id);
-            if (!getUsuario) {
-                return res.status(404).json({ mensaje: 'Usuario no encontrado' });
-            }
-    
-            // Crear y guardar el nuevo producto
-            const nuevoarticulo = new Producto(req.body);
-            await nuevoarticulo.save();
-    
-            // Agregar el ID del nuevo producto al array de artículos del usuario
-            getUsuario.arrayProductos.push(nuevoarticulo._id);
-    
-            // Guardar los cambios en la Base de Datos
-            await getUsuario.save();
-    
-            // Responder con éxito
-            res.status(200).json({ mensaje: 'Producto agregado al usuario con éxito' });
-        } catch (error) {
-            console.error(error);
-            res.status(500).json({ mensaje: 'Error al agregar el producto al usuario' });
+export const agregarProductosAusuarios = async (req, res) => {
+    try {
+        const getUsuario = await Usuario.findById(req.params.idUsuario);
+        const getProducto = await Producto.findById(req.params.idProducto);
+
+        if (!getUsuario) {
+            return res.status(404).json({ mensaje: 'Usuario no encontrado.' });
         }
-    }; */
-    export const agregarProductosAusuarios = async (req, res) => {
-        try {
-            const { id } = req.params;
-    
-            // Buscar el usuario por ID
-            const getUsuario = await Usuario.findById(id);
-            if (!getUsuario) {
-                return res.status(404).json({ mensaje: 'Usuario no encontrado' });
-            }
-    
-            // Validar que req.body contenga los campos necesarios para Producto
-            if (!req.body || !req.body.nombre || !req.body.precio) {
-                return res.status(400).json({ mensaje: 'Datos del producto incompletos' });
-            }
-    
-            // Crear y guardar el nuevo producto
-            const nuevoarticulo = new Producto(req.body);
-            await nuevoarticulo.save();
-    
-            // Agregar el ID del nuevo producto al array de artículos del usuario
-            getUsuario.arrayProductos.push(nuevoarticulo._id);
-    
-            // Guardar los cambios en la Base de Datos
-            await getUsuario.save();
-    
-            // Responder con éxito, incluyendo el producto agregado
-            res.status(200).json({ 
-                mensaje: 'Producto agregado al usuario con éxito',
-                producto: nuevoarticulo // Devuelve el producto creado
-            });
-        } catch (error) {
-            console.error(error);
-            res.status(500).json({ mensaje: 'Error al agregar el producto al usuario' });
+        if (!getProducto) {
+            return res.status(404).json({ mensaje: 'Producto no encontrado.' });
         }
-    };
+
+        const prodExist = getUsuario.arrayProductos.filter((prod) => prod.toString() === getProducto._id.toString());
+        if (prodExist.length > 0) {
+            return res.status(400).json({ mensaje: 'Producto ya agregado al usuario.' });
+        }
+
+        getUsuario.arrayProductos.push(getProducto._id);
+        await getUsuario.save();
+
+        res.status(200).json({ mensaje: 'Producto agregado al usuario correctamente.', getUsuario });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ mensaje: 'Error al agregar producto al usuario.', detalles: error.message });
+    }
+};
+
     
