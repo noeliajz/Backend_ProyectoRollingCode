@@ -3,7 +3,7 @@ import { crearUsuario, editarUsuario, eliminarUsuario, iniciarSesion, obtenerTod
 import { check } from 'express-validator'
 
 const router= Router()
- router.route('/').post([
+ router.route('/iniciarSesion').post([
     check('email')
     .notEmpty()
     .withMessage('campo email vacio')
