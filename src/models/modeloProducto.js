@@ -4,7 +4,7 @@ const productoSchema = new Schema({
     nombre:{
         type: String,
         minlength: 3,
-        maxlength: 20,
+        maxlength: 35,
         required: true
     },
     precio:{
@@ -28,6 +28,9 @@ const productoSchema = new Schema({
     fecha: {
         type: Date,
         required: true
+    },
+    imagen:{
+        type: String
     }
 
 })
